@@ -1,7 +1,17 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using Transferencias.Web.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+/**************** Agregado de log **********************/
+Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration)
+                .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(Log.Logger);
+/*******************************************************/
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 

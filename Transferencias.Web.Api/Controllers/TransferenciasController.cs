@@ -11,11 +11,13 @@ namespace Transferencias.Controllers
     public class TransferenciasController : ControllerBase
     {
         private readonly TransferenciasContext _context;
+        private readonly ILogger<TransferenciasController> _logger;
         static readonly HttpClient client = new HttpClient();
 
-        public TransferenciasController(TransferenciasContext context)
+        public TransferenciasController(TransferenciasContext context, ILogger<TransferenciasController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
 
@@ -24,11 +26,13 @@ namespace Transferencias.Controllers
         {
             try
             {
+                _logger.LogInformation($"Solicitando lista de transferencias del CUIL {cbuOrigen}");
                 var transferencias = await _context.Transferencias.Where(x => x.CbuOrigen == cbuOrigen).ToListAsync();
                 return Ok(transferencias);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error al realizar Post de Transferencia", ex);
                 return Conflict(ex);
             }
         }
@@ -39,6 +43,8 @@ namespace Transferencias.Controllers
         {
             try
             {
+                _logger.LogInformation($"Solicitando transferencias del CUIL {transferencia.CuilOriginante} a {transferencia.CuilDestinatario}");
+
                 /************ Llamado a servicio de clientes ***************/
                 var result = await client.GetAsync($"http://localhost:5181/clientes/cuil/{transferencia.CuilOriginante}");
                 
@@ -55,6 +61,7 @@ namespace Transferencias.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error al realizar Post de Transferencia", ex);
                 return Conflict(ex);
             }
         }

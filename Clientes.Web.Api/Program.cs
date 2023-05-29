@@ -1,9 +1,18 @@
 using Clientes.Web.Api;
 using Clientes.Web.Api.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+/**************** Agregado de log **********************/
+Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration)
+                .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(Log.Logger);
+/*******************************************************/
 
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
