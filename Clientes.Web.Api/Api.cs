@@ -48,7 +48,7 @@ namespace Clientes.Web.Api
             }
             catch (Exception ex)
             {
-                return Results.Problem(ex.Message);
+                return Results.Problem($"{ex.Message} \nInnerException: {ex?.InnerException.Message}");
             }
         }
 

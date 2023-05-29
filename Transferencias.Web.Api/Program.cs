@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Serilog;
 using Transferencias.Web.Api.Models;
 
@@ -18,6 +20,15 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
 builder.Services.AddDbContext<TransferenciasContext>(options =>
     options.UseSqlServer(connectionString)
     );
+
+
+builder.Services.AddOpenTelemetryTracing(b => {
+    b.SetResourceBuilder(
+        ResourceBuilder.CreateDefault().AddService(builder.Environment.ApplicationName))
+     .AddAspNetCoreInstrumentation()
+     .AddOtlpExporter(opts => { opts.Endpoint = new Uri("http://localhost:4317"); });
+});
+
 
 
 // Add services to the container.

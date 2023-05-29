@@ -49,7 +49,7 @@ namespace Transferencias.Controllers
                 var result = await client.GetAsync($"http://localhost:5181/clientes/cuil/{transferencia.CuilOriginante}");
                 
                 if (result.StatusCode == HttpStatusCode.NotFound)
-                    return BadRequest($"Cuil del originante {transferencia.CuilOriginante} no se encontró en base de clientes");
+                    return BadRequest($"Cuil del originante {transferencia.CuilOriginante} no fue hallado por el serivico de clientes");
 
                 if (!result.IsSuccessStatusCode)
                     return Conflict("Error al invocar servicio de Clientes");
