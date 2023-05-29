@@ -26,7 +26,7 @@ namespace Clientes.Web.Api
         {
             try
             {
-                var cliente = await context.Clientes.FindAsync(cuil.Trim());
+                var cliente = await context.Clientes.Where(x => x.Cuil == cuil).FirstOrDefaultAsync();
                 if (cliente == null) return Results.NotFound();
 
                 return Results.Ok(cliente);

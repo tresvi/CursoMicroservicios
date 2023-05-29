@@ -18,16 +18,17 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 //app.MapGet("/clientes/{algo}", (string algo) => $"El id es {algo}");
-app.MapGet("/clientes", async (ClientesContext context) => await context.Clientes.ToListAsync())
-    .WithName("Api").WithName("API");
+app.MapGet("/clientes", async (ClientesContext context) => await context.Clientes.ToListAsync());
 
 app.MapGet("/clientes/{id}", Api.ObtenerClientePorId)
     .Produces(StatusCodes.Status200OK)
     .Produces(StatusCodes.Status404NotFound)
     .Produces(StatusCodes.Status500InternalServerError);
 
-app.MapGet("/clientes/cuil/{cuil}", async (ClientesContext context, string cuil) => await context.Clientes.Where(x => x.Cuil == cuil).ToListAsync()).WithName("Api");
-//app.MapGet("/clientes/cuit", Api.ObtenerClientePorCuil);
+
+app.MapGet("/clientes/cuil/{cuil}", Api.ObtenerClientePorCuil);
+//Otra manera pero con funcion lambda
+//app.MapGet("/clientes/cuil/{cuil}", async (ClientesContext context, string cuil) => await context.Clientes.Where(x => x.Cuil == cuil).FirstOrDefaultAsync()).WithName("Api");
 app.MapPost("/clientes", Api.AgregarCliente);
 app.MapPut("/clientes/{id}", Api.ActualizarCliente);
 app.MapDelete("/clientes/{id}", Api.EliminarCliente);
