@@ -26,7 +26,7 @@ namespace Transferencias.Controllers
         {
             try
             {
-                _logger.LogInformation($"Solicitando lista de transferencias del CUIL {cbuOrigen}");
+                _logger.LogInformation($"Solicitando lista de transferencias del CBU {cbuOrigen}");
                 var transferencias = await _context.Transferencias.Where(x => x.CbuOrigen == cbuOrigen).ToListAsync();
                 return Ok(transferencias);
             }
