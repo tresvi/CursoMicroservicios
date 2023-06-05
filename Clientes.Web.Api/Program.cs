@@ -24,13 +24,14 @@ builder.Services.AddDbContext<ClientesContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
+/************* Agregado de opentelemetry ***************/
 builder.Services.AddOpenTelemetryTracing(b => {
     b.SetResourceBuilder(
         ResourceBuilder.CreateDefault().AddService(builder.Environment.ApplicationName))
      .AddAspNetCoreInstrumentation()
      .AddOtlpExporter(opts => { opts.Endpoint = new Uri("http://localhost:4317"); });
 });
-
+/*******************************************************/
 
 var app = builder.Build();
 app.UseSwagger();

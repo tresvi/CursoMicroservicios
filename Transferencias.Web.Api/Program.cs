@@ -21,15 +21,14 @@ builder.Services.AddDbContext<TransferenciasContext>(options =>
     options.UseSqlServer(connectionString)
     );
 
-
+/************* Agregado de opentelemetry ***************/
 builder.Services.AddOpenTelemetryTracing(b => {
     b.SetResourceBuilder(
         ResourceBuilder.CreateDefault().AddService(builder.Environment.ApplicationName))
      .AddAspNetCoreInstrumentation()
      .AddOtlpExporter(opts => { opts.Endpoint = new Uri("http://localhost:4317"); });
 });
-
-
+/*******************************************************/
 
 // Add services to the container.
 builder.Services.AddControllers();
