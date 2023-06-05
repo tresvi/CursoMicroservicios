@@ -59,3 +59,17 @@ app.Run();
 
 //
 //Scaffold-DbContext "Server=(localdb)\MSSQLLocalDB;Database=Transferencias; Integrated Security = True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+
+/* 
+Docker:
+    Compilacion de Imagen:  
+        docker build -t transferenciaswebapi:latest ./ -f "Transferencias.Web.Api//Dockerfile"
+    Creacion del contenedor en base a la imagen:
+        docker run -d -p 6010:80 transferenciaswebapi:latest
+
+    Taggear imagen para poder subirla:
+        docker tag transferenciaswebapi:latest tresvi/transferenciaswebapi:latest
+    Hacer el push de la imagen al repositorio 
+        docker push tresvi/transferenciaswebapi:latest
+*/

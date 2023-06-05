@@ -67,3 +67,15 @@ Levantar Jaeger (desde Powershell):
 docker run --name jaeger -p 13133:13133 -p 16686:16686 -p 4317:4317 -d --restart=unless-stopped jaegertracing/opentelemetry-all-in-one
 */
 
+/* 
+Docker:
+    Compilacion de Imagen:  
+        docker build -t clienteswebapi:latest ./ -f "Clientes.Web.Api//Dockerfile"
+    Creacion del contenedor en base a la imagen:
+        docker run -d -p 6020:80 clienteswebapi:latest
+
+    Taggear imagen para poder subirla:
+        docker tag clienteswebapi:latest tresvi/clienteswebapi:latest
+    Hacer el push de la imagen al repositorio 
+        docker push tresvi/clienteswebapi:latest
+*/
