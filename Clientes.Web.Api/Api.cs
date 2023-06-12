@@ -1,4 +1,5 @@
 ﻿using Clientes.Web.Api.Models;
+using Confluent.Kafka;
 using Microsoft.EntityFrameworkCore;
 
 namespace Clientes.Web.Api
@@ -44,12 +45,26 @@ namespace Clientes.Web.Api
             {
                 await context.Clientes.AddAsync(cliente);
                 await context.SaveChangesAsync();
-                return Results.Created($"/clientes/{cliente.Id}", cliente);
             }
             catch (Exception ex)
             {
                 return Results.Problem($"{ex.Message} \nInnerException: {ex?.InnerException.Message}");
             }
+
+            /********* Notifica al servicio de auditoria de forma asincronica **********/
+            try
+            {
+                var config = new ProducerConfig { BootstrapServers = "localhost:9092", Acks = Acks.Leader };
+                using var producer = new ProducerBuilder<Null, string>(config).Build();
+                var response = await producer.ProduceAsync("auditoria-clientes",
+                        new Message<Null, string> { Value = $"Cuit: {cliente.Cuil} | Nombre: {cliente.Nombre}" });
+            }
+            catch (ProduceException<Null, string> ex)
+            {
+                Console.WriteLine(ex.Message);
+            } /*************************************************************************/
+
+            return Results.Created($"/clientes/{cliente.Id}", cliente);
         }
 
 
