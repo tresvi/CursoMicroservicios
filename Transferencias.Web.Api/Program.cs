@@ -16,7 +16,6 @@ builder.Logging.AddSerilog(Log.Logger);
 /*******************************************************/
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<TransferenciasContext>(options =>
     options.UseSqlServer(connectionString)
     );
@@ -34,7 +33,6 @@ builder.Services.AddOpenTelemetryTracing(b => {
 
 // Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

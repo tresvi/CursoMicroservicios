@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clientes-deploy
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: clienteswebapi
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: clienteswebapi
+    spec:
+      containers:
+        - name: clientes-pod
+          image: tresvi/clienteswebapi:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: Kafka__Url
+              value: localhost:9092
+            - name: OpenTelemetry__Url
+              value: http://localhost:4317
