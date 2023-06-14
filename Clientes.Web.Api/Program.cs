@@ -20,16 +20,17 @@ builder.Logging.AddSerilog(Log.Logger);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ClientesContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<ClientesContext>(options => options.UseSqlServer(connectionString));
 
 /************* Agregado de opentelemetry ***************/
+string openTelemetryUri = builder.Configuration.GetValue<string>("OpenTelemetry:Url");
+
 builder.Services.AddOpenTelemetryTracing(b => {
     b.SetResourceBuilder(
         ResourceBuilder.CreateDefault().AddService(builder.Environment.ApplicationName))
      .AddAspNetCoreInstrumentation()
-     .AddOtlpExporter(opts => { opts.Endpoint = new Uri("http://localhost:4317"); });
+     .AddOtlpExporter(opts => { opts.Endpoint = new Uri(openTelemetryUri); });
 });
 /*******************************************************/
 
@@ -63,7 +64,7 @@ Desde Nuget Package Manager ejecutar:
 Instruccion para crear entidades de la base en el codigo (correr desde la consola de paquetes nuget)
 Scaffold-DbContext "Server=(localdb)\MSSQLLocalDB;Database=Clientes; Integrated Security = True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
 
-Levantar Jaeger (desde Powershell):
+Levantar Jaeger en Docker (desde Powershell):
 docker run --name jaeger -p 13133:13133 -p 16686:16686 -p 4317:4317 -d --restart=unless-stopped jaegertracing/opentelemetry-all-in-one
 */
 

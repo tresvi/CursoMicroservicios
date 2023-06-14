@@ -1,15 +1,24 @@
 ﻿using Confluent.Kafka;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 Console.WriteLine("Ejecutando Consumer simple. Auditoria de Clientes...");
 
-var config = new ConsumerConfig
+/************ Leo del archivo de config. la dirección del kafka***********/
+using IHost host = Host.CreateDefaultBuilder(args).Build();
+IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
+string boostrapServers = config.GetValue<string>("bootstrapServers", "localhost:9092");
+/*************************************************************************/
+
+var consumerConfig = new ConsumerConfig
 {
     GroupId = "auditoria-group",
-    BootstrapServers = "localhost:9092",
+    BootstrapServers = boostrapServers,
     AutoOffsetReset = AutoOffsetReset.Earliest
 };
 
-using var consumer = new ConsumerBuilder<Null, string>(config).Build();
+using var consumer = new ConsumerBuilder<Null, string>(consumerConfig).Build();
 consumer.Subscribe("auditoria-clientes");
 CancellationTokenSource token = new();
 

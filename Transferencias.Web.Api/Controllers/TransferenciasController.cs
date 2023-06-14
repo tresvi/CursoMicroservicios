@@ -45,15 +45,17 @@ namespace Transferencias.Controllers
             {
                 _logger.LogInformation($"Solicitando transferencias del CUIL {transferencia.CuilOriginante} a {transferencia.CuilDestinatario}");
 
-                /************ Llamado a servicio de clientes ***************/
-                var result = await client.GetAsync($"http://localhost:5181/clientes/cuil/{transferencia.CuilOriginante}");
+                /******** Llamado a API clientes para verificar Cuil de Originante *******/
+                string clientesApiUrl = GetFromConfig<string>("Clientes:Url");
+
+                var result = await client.GetAsync($"{clientesApiUrl}/cuil/{transferencia.CuilOriginante}");
                 
                 if (result.StatusCode == HttpStatusCode.NotFound)
                     return BadRequest($"Cuil del originante {transferencia.CuilOriginante} no fue hallado por el serivico de clientes");
 
                 if (!result.IsSuccessStatusCode)
                     return Conflict("Error al invocar servicio de Clientes");
-                /**********************************************************/
+                /**************************************************************************/
 
                 var nuevaTransferencia = await _context.Transferencias.AddAsync(transferencia);
                 await _context.SaveChangesAsync();
@@ -66,5 +68,12 @@ namespace Transferencias.Controllers
             }
         }
 
+
+        private static T GetFromConfig<T>(string clave, T defaultValue = default)
+        {
+            using IHost host = Host.CreateDefaultBuilder().Build();
+            IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
+            return config.GetValue<T>(clave, defaultValue);
+        }
     }
 }

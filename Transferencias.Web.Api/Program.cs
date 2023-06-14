@@ -22,11 +22,13 @@ builder.Services.AddDbContext<TransferenciasContext>(options =>
     );
 
 /************* Agregado de opentelemetry ***************/
+string openTelemetryUri = builder.Configuration.GetValue<string>("OpenTelemetry:Url");
+
 builder.Services.AddOpenTelemetryTracing(b => {
     b.SetResourceBuilder(
         ResourceBuilder.CreateDefault().AddService(builder.Environment.ApplicationName))
      .AddAspNetCoreInstrumentation()
-     .AddOtlpExporter(opts => { opts.Endpoint = new Uri("http://localhost:4317"); });
+     .AddOtlpExporter(opts => { opts.Endpoint = new Uri(openTelemetryUri); });
 });
 /*******************************************************/
 
