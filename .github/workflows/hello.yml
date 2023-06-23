@@ -7,8 +7,11 @@ on:
       
 jobs:
   hello_world:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Echo the message
         run: |
           echo "Hola que tal"
+      - name: "Fecha de hoy"
+        run: date
+      - run: ls-l
