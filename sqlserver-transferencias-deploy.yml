@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transferencias-deploy
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: transferenciaswebapi
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: transferenciaswebapi
+    spec:
+      containers:
+        - name: transferencias-pod
+          image: tresvi/transferenciaswebapi:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: ConnectionStrings__DefaultConnection
+              value: Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Clientes;Integrated Security=True;Connect Timeout=30;Encrypt=False;
+            - name: Clientes__Url
+              value: clientes-svc
+            - name: OpenTelemetry__Url
+              value: http://localhost:4317
+            
