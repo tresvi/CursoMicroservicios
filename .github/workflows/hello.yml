@@ -14,4 +14,4 @@ jobs:
           echo "Hola que tal"
       - name: "Fecha de hoy"
         run: date
-      - run: ls-l
+      - run: ls -l
