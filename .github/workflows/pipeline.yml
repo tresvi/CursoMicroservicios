@@ -22,3 +22,7 @@ jobs:
         run: dotnet build --no-restore
       - name: Test
         run: dotnet test --no-build --verbosity normal
+      - name: Publish Clientes
+        run: dotnet publish Clientes.Web.Api/Clientes.Web.Api.csproj
+      - name: Publish Transferencias
+        run: dotnet publish TRansferencias.Web.Api/Transferencias.Web.Api.csproj
