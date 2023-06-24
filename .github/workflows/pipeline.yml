@@ -25,4 +25,4 @@ jobs:
       - name: Publish Clientes
         run: dotnet publish Clientes.Web.Api/Clientes.Web.Api.csproj
       - name: Publish Transferencias
-        run: dotnet publish TRansferencias.Web.Api/Transferencias.Web.Api.csproj
+        run: dotnet publish Transferencias.Web.Api/Transferencias.Web.Api.csproj
