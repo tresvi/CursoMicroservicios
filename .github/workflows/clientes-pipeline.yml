@@ -31,7 +31,7 @@ jobs:
           path: |
             publish/**
             !publish/runtimes/**
-            
+
   release-project:
     name: Release project
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN_PARA_RELEASE }}
         with:
           tag_name: ${{ github.run_number }}
-          release_name: Release 1.0.${{ github.run_number }} Clientes 
+          release_name: Clientes Release 1.0.${{ github.run_number }} 
       - name: Subida de assets
         uses: actions/upload-release-asset@v1
         env:
