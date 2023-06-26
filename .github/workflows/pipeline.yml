@@ -35,4 +35,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: websiteClientes
-          path: websiteClientes/**
+          path: |
+            websiteClientes/**
+            !websiteClientes/runtimes/**
+
+    
