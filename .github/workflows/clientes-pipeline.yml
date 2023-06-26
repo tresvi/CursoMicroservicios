@@ -1,4 +1,4 @@
-name: Deployment Pipeline
+name: Clientes Deployment Pipeline
 
 on:
   push:
@@ -26,17 +26,8 @@ jobs:
         run: dotnet publish Clientes.Web.Api/Clientes.Web.Api.csproj -c Release -o websiteClientes
       - name: Publish Transferencias
         run: dotnet publish Transferencias.Web.Api/Transferencias.Web.Api.csproj -c Release -o websiteTransferencias
-      - name: Check Publish
-        run: | 
-          ls
-          cd Transferencias.Web.Api
-          ls
       - name: Subir compilado
         uses: actions/upload-artifact@v3
         with:
           name: websiteClientes
-          path: |
-            websiteClientes/**
-            !websiteClientes/runtimes/**
-
-    
+          path: Clientes.Web.Api/websiteClientes/**
