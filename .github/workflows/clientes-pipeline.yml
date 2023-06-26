@@ -24,6 +24,11 @@ jobs:
         run: dotnet test --no-build --verbosity normal
       - name: Publish de servicio
         run: dotnet publish Clientes.Web.Api/Clientes.Web.Api.csproj -c Release -o publish
+      - name: Subida por Curl
+        run: | 
+          echo ${{secrets.TOKEN_PARA_RELEASE}}"
+          echo 'alpha' > alpha.zip
+          curl -X POST -H "Authorization: token ${{secrets.TOKEN_PARA_RELEASE}}" -H "Content-Type: application/zip" --data-binary @alpha.zip "https://api.github.com/repos/tresvi/CursoMicroservicios/releases"
       - name: Subir compilado
         uses: actions/upload-artifact@v3
         with:
