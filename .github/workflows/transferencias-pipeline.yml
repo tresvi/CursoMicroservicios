@@ -52,7 +52,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN_PARA_RELEASE }}
         with:
           tag_name: Transferencias-${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
+          release_name: Release 1.0.${{ github.run_number }}
       - name: Subida de assets
         uses: actions/upload-release-asset@v1
         env:
@@ -60,5 +60,5 @@ jobs:
         with:
           upload_url: ${{ steps.nueva-release.outputs.upload_url }}
           asset_path: ./build.zip
-          asset_name: transferencias-build-v${{ github.run_number }}.zip
+          asset_name: transferencias-build-v1.0.${{ github.run_number }}.zip
           asset_content_type: application/zip            
