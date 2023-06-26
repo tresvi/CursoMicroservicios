@@ -31,6 +31,7 @@ jobs:
           path: |
             publish/**
             !publish/runtimes/**
+            
   release-project:
     name: Release project
     runs-on: ubuntu-latest
