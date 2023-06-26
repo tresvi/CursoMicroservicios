@@ -27,7 +27,7 @@ jobs:
       - name: Subir compilado
         uses: actions/upload-artifact@v3
         with:
-          name: release-transferencias
+          name: release
           path: |
             publish/**
             !publish/runtimes/**
@@ -40,7 +40,7 @@ jobs:
       - name: Descarga de artifact
         uses: actions/download-artifact@v3
         with:
-          name: release-clientes
+          name: release
       - name: Compresion de artifact
         uses: thedoctor0/zip-release@master
         with:
