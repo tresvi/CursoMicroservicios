@@ -44,3 +44,11 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           filename: build.zip
+      - name: Create Github release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_PARA_RELEASE }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name:  ${{ github.run_number }}
+          
