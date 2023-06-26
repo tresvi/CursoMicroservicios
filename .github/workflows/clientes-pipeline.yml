@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-project:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,11 +24,6 @@ jobs:
         run: dotnet test --no-build --verbosity normal
       - name: Publish de servicio
         run: dotnet publish Clientes.Web.Api/Clientes.Web.Api.csproj -c Release -o publish
-      - name: Subida por Curl
-        run: | 
-          echo ${{secrets.TOKEN_PARA_RELEASE}}"
-          echo 'alpha' > alpha.zip
-          curl -X POST -H "Authorization: token ${{secrets.TOKEN_PARA_RELEASE}}" -H "Content-Type: application/zip" --data-binary @alpha.zip "https://api.github.com/repos/tresvi/CursoMicroservicios/releases"
       - name: Subir compilado
         uses: actions/upload-artifact@v3
         with:
@@ -36,3 +31,16 @@ jobs:
           path: |
             publish/**
             !publish/runtimes/**
+  release-project:
+    name: Release project
+    runs-on: ubuntu-latest
+    needs: build-project
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: archivos
+      - name: Archive site content
+        uses: thedoctor0/zip-release@master
+        with:
+          filename: build.zip
