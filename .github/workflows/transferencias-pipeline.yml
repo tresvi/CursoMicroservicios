@@ -27,7 +27,7 @@ jobs:
       - name: Subir compilado
         uses: actions/upload-artifact@v3
         with:
-          name: release-transferencias
+          name: release
           path: |
             publish/**
             !publish/runtimes/**
@@ -40,7 +40,7 @@ jobs:
       - name: Descarga de artifact
         uses: actions/download-artifact@v3
         with:
-          name: release-transferencias
+          name: release
       - name: Compresion de artifact
         uses: thedoctor0/zip-release@master
         with:
@@ -51,8 +51,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_PARA_RELEASE }}
         with:
-          tag_name: Transferencias-${{ github.run_number }}
-          release_name: Transferencias Release 1.0.${{ github.run_number }}
+          tag_name: ${{ github.run_number }}
+          release_name: Release 1.0.${{ github.run_number }} Transferencias 
       - name: Subida de assets
         uses: actions/upload-release-asset@v1
         env:

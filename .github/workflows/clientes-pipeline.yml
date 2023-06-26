@@ -27,7 +27,7 @@ jobs:
       - name: Subir compilado
         uses: actions/upload-artifact@v3
         with:
-          name: release-clientes
+          name: release
           path: |
             publish/**
             !publish/runtimes/**
@@ -39,7 +39,7 @@ jobs:
       - name: Descarga de artifact
         uses: actions/download-artifact@v3
         with:
-          name: release-clientes
+          name: release
       - name: Compresion de artifact
         uses: thedoctor0/zip-release@master
         with:
@@ -50,8 +50,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_PARA_RELEASE }}
         with:
-          tag_name: Clientes-${{ github.run_number }}
-          release_name: Clientes Release 1.0.${{ github.run_number }}
+          tag_name: ${{ github.run_number }}
+          release_name: Release 1.0.${{ github.run_number }} Clientes 
       - name: Subida de assets
         uses: actions/upload-release-asset@v1
         env:
