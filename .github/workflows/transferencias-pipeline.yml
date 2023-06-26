@@ -1,4 +1,4 @@
-name: Clientes Deployment Pipeline
+name: Transferencias Deployment Pipeline
 
 on:
   push:
@@ -23,11 +23,11 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal
       - name: Publish de servicio
-        run: dotnet publish Clientes.Web.Api/Clientes.Web.Api.csproj -c Release -o publish
+        run: dotnet publish Transferencias.Web.Api/Transferencias.Web.Api.csproj -c Release -o publish
       - name: Subir compilado
         uses: actions/upload-artifact@v3
         with:
-          name: release-clientes
+          name: release-transferencias
           path: |
             publish/**
             !publish/runtimes/**
