@@ -53,6 +53,8 @@ jobs:
         with:
           tag_name: ${{ github.run_number }}
           release_name: Clientes Release 1.0.${{ github.run_number }}
+      - name: hackear
+        run: echo 'hola martin'
       - name: Subida de assets
         uses: actions/upload-release-asset@v1
         env:
