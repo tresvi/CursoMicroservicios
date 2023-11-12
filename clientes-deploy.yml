@@ -24,6 +24,8 @@ spec:
           ports:
             - containerPort: 80
           env:
+            - name: ConnectionStrings__DefaultConnection
+              value: Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Clientes;Integrated Security=True;Connect Timeout=30;Encrypt=False;
             - name: Kafka__Url
               value: localhost:9092
             - name: OpenTelemetry__Url
